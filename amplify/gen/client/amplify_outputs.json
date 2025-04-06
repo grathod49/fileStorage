@@ -1,0 +1,10 @@
+{
+    "aws_project_region": "ca-central-1",
+    "aws_cognito_identity_pool_id": "ca-central-1:065e6d33-19ba-4d6e-9f8a-758f9bccbf99",
+    "aws_cognito_region": "ca-central-1",
+    "aws_user_pools_id": "ca-central-1_wBKgjVzsH",
+    "aws_user_pools_web_client_id": "7mlk86c4qq685ehaes04lkodd",
+    "aws_user_files_s3_bucket": "group3bucket51cf8-dev",
+    "aws_user_files_s3_bucket_region": "ca-central-1"
+  }
+  

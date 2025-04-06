@@ -1,7 +1,41 @@
+import React, { useState } from 'react';
+import FileUpload from './FileUpload';
+import Login from './Login';
+import Signup from './Signup';
+import ConfirmSignup from './ConfirmSignup';
+
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+  const [showConfirmSignup, setShowConfirmSignup] = useState(false);
+  const [emailForConfirmation, setEmailForConfirmation] = useState('');
+
+  const handleSignupSuccess = (email) => {
+    setEmailForConfirmation(email);
+    setShowConfirmSignup(true);  // Show OTP confirmation
+  };
+
+  const handleConfirmationSuccess = () => {
+    setLoggedIn(true);
+    setShowConfirmSignup(false);  // Hide OTP confirmation
+  };
+
+  if (!loggedIn) {
+    if (showConfirmSignup) {
+      return <ConfirmSignup email={emailForConfirmation} onConfirmationSuccess={handleConfirmationSuccess} />;
+    }
+
+    return showSignup ? (
+      <Signup onSwitch={() => setShowSignup(false)} onSignupSuccess={handleSignupSuccess} />
+    ) : (
+      <Login onSwitch={() => setShowSignup(true)} onLoginSuccess={() => setLoggedIn(true)} />
+    );
+  }
+
   return (
-    <div>
-      <h1>AWS File Storage App</h1>
+    <div style={{ padding: '2rem' }}>
+      <h1>Welcome! File Upload Enabled</h1>
+      <FileUpload />
     </div>
   );
 }
