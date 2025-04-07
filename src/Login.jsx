@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { signIn } from '@aws-amplify/auth';
+import './Auth.css';
 
 function Login({ onSwitch, onLoginSuccess }) {
   const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ function Login({ onSwitch, onLoginSuccess }) {
   };
 
   return (
-    <div>
+    <div class="auth-container">
       <h2>Login</h2>
       <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
       <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
