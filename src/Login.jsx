@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { signIn } from '@aws-amplify/auth';
-import './Auth.css';
+import './auth.css';
 
 function Login({ onSwitch, onLoginSuccess }) {
   const [email, setEmail] = useState('');
