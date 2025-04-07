@@ -18,7 +18,7 @@ function Login({ onSwitch, onLoginSuccess }) {
   };
 
   return (
-    <div class="auth-container">
+    <div className="auth-container">
       <h2>Login</h2>
       <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
       <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />

@@ -7,16 +7,19 @@ function ConfirmSignup({ email, onConfirmationSuccess }) {
 
   const handleConfirmSignup = async () => {
     try {
-      await confirmSignUp(email, otp);
-      setStatus('Confirmation successful!');
-      onConfirmationSuccess();
+      await confirmSignUp({
+        username: email,
+        confirmationCode: otp,
+      });
+      setStatus('Account confirmed!');
+      onConfirmationSuccess(); // move to upload page
     } catch (error) {
       setStatus('Error: ' + error.message);
     }
   };
 
   return (
-    <div>
+    <div className="auth-container">
       <h2>Enter OTP</h2>
       <input
         type="text"
@@ -24,6 +27,7 @@ function ConfirmSignup({ email, onConfirmationSuccess }) {
         value={otp}
         onChange={(e) => setOtp(e.target.value)}
       />
+      <br />
       <button onClick={handleConfirmSignup}>Confirm</button>
       <p>{status}</p>
     </div>
