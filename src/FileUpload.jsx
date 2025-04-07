@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { uploadData, getUrl, list } from '@aws-amplify/storage';
+import { getCurrentUser } from '@aws-amplify/auth'; // Correct import for Auth
 import './FileUpload.css'; // 💅 Custom styling
 
 function FileUpload() {
@@ -14,13 +15,19 @@ function FileUpload() {
 
   const fetchFiles = async () => {
     try {
-      const { items } = await list({ options: { accessLevel: 'public' } });
+      const user = await getCurrentUser();  // Get current authenticated user
+      const username = user.username;  // Use username as user-specific folder
+
+      // List files under the user's folder (username)
+      const { items } = await list(`${username}/`);
+      
       const fileData = await Promise.all(
         items.map(async (item) => {
-          const { url } = await getUrl({ key: item.key, options: { accessLevel: 'public' } });
+          const { url } = await getUrl({ key: item.key });
           return { name: item.key, url };
         })
       );
+      
       setFiles(fileData);
     } catch (error) {
       console.error('Error listing files:', error);
@@ -35,15 +42,20 @@ function FileUpload() {
   const handleUpload = async () => {
     if (!file) return alert('Please choose a file');
     setStatus('Uploading...');
+    
     try {
+      const user = await getCurrentUser();  // Get current authenticated user
+      const username = user.username;  // Use username as user-specific folder
+      
+      // Upload file to the user-specific folder (username)
       await uploadData({
-        key: file.name,
+        key: `${username}/${file.name}`,  // Create a user-specific folder
         data: file,
-        options: { accessLevel: 'public' },
       }).result;
+      
       setStatus('Upload successful!');
       setFile(null);
-      fetchFiles(); // Refresh file list
+      fetchFiles(); // Refresh file list after successful upload
     } catch (err) {
       console.error('Upload failed:', err);
       setStatus('Upload failed!');
